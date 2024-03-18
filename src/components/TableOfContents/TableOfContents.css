@@ -1,0 +1,28 @@
+/* Component from https://www.emgoto.com/react-table-of-contents/ */
+
+nav {
+  position: sticky;
+  position: -webkit-sticky; /* For Safari */
+  top: 48px; /* How far down the page you want your ToC to live */
+
+  /* Give table of contents a scrollbar */
+  max-height: calc(100vh - 40px);
+  min-width: 250px;
+  overflow: auto;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0; 
+  margin: 0;
+}
+
+nav ul li ul {
+  padding-left: 24px;
+}
+
+@media screen and (max-width: 1000px) {
+    nav {
+      display: none;
+    }
+  }

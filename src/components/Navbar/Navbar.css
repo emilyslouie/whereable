@@ -1,0 +1,57 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 100%;
+    align-items: end;
+    padding-bottom: 32px;
+}
+
+.name {
+    font-weight: 800;
+    font-size: 48px;
+    color: #181b2d;
+}
+
+.link-items {
+    padding-bottom: 9px;
+    
+}
+
+.link-items a:not(:last-child) {
+    padding-right: 24px;
+}
+
+.link {
+    font-size: 24px;
+    color: #303d49;
+}
+
+@media (prefers-color-scheme: dark) {
+    .name {
+        color: rgb(249, 249, 249);
+    }
+    
+    .link {
+        color: rgb(203, 203, 203);
+    }
+}
+
+
+@media only screen and (max-width: 1000px) {
+    .name {
+        font-size: 32px;
+    }
+
+    .link {
+        font-size: 21px;
+    }
+
+    .link-items a:not(:last-child) {
+        padding-right: 12px;
+    }
+
+    .link-items {
+        padding-bottom: 4px;
+    }
+}

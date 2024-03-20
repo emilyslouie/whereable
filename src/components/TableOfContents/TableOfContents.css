@@ -22,25 +22,15 @@ nav ul li ul {
 }
 
 li.active > a {
-  color: rgb(17, 17, 17);
+  color: #FD8D00;
 }
 
 li > a:hover {
-  color: rgb(17, 17, 17);
+  color: #FD8D00;
 }
 
 @media screen and (max-width: 1000px) {
   nav {
     display: none;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  li.active > a {
-    color: white;
-  }
-
-  li > a:hover {
-    color: white;
   }
 }

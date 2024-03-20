@@ -27,13 +27,7 @@ function AboutPage() {
       <p>a long blurb here</p>
 
       <h2>Meet the team</h2>
-      <p>Joy He</p>
-      <p>Matthew Kee</p>
-      <p>Emily Louie</p>
-      <p>Jayant Mehta</p>
-      <p>Gregory Schaper</p>
 
-      <h2>Meet the team</h2>
       <p>Joy He</p>
       <p>Matthew Kee</p>
       <p>Emily Louie</p>

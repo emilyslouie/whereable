@@ -18,6 +18,14 @@ import CrossCorrelation from "../assets/cross-correlation.png";
 import Belt1 from "../assets/belt1.jpg";
 import Morph from "../assets/morph.png";
 import Cdm from "../assets/cdm.png";
+import EndToEnd1 from "../assets/end-to-end.png";
+import SoundReception2 from "../assets/sound-reception-diagram.png";
+import DetermineAngle from "../assets/determine-angle.png";
+import LaptopToZero from "../assets/laptop-to-zero.png";
+import ZeroToFive from "../assets/zero-to-five.png";
+import Belt48 from "../assets/belt-4-8.png";
+import BeltArmband from "../assets/belt-armband.png";
+import Armband from "../assets/armband.jpeg";
 
 function LearnMorePage() {
   return (
@@ -32,7 +40,7 @@ function LearnMorePage() {
         <h1 className="subtitle">Looking for a one pager?</h1>
         <a
           className="link-button"
-          href="https://google.com"
+          href="poster.pdf"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -252,6 +260,14 @@ function LearnMorePage() {
             to determine the time delay between the same signal arriving at two
             sensors.
           </p>
+          <p>
+            If a signal was first received by microphone “B” and then was
+            received by microphone “A” with a delay, then we can conclude that
+            the sound source must be closer to microphone “B”. Following this
+            logic, we conduct a cross-correlation between the “left” and “right”
+            microphones, and another between the “front” and “right”
+            microphones, and use the delays to classify direction.
+          </p>
           <img src={CrossCorrelation} />
           <Accordion allowMultipleExpanded allowZeroExpanded>
             <AccordionItem>
@@ -318,6 +334,285 @@ function LearnMorePage() {
                   before scaling it down.
                 </p>
                 <img src={Cdm} />
+              </AccordionItemPanel>
+            </AccordionItem>
+          </Accordion>
+          <h3 id="end-to-end1">Combining the pieces</h3>
+          <img src={EndToEnd1} />
+          <h2 id="iteration2">Iteration 2 - Making it Practical</h2>
+          <h3 id="sr2">Sound Reception</h3>
+          <p>
+            The bulkiness and cost of our equipment is not feasible for a
+            portable and wearable prototype. Therefore we need microphones that
+            have preamplification built in and can be run directly from a
+            microcontroller and not a bulky XLR port. This led us to prebuilt
+            sound sensors, that would act as a microphone, but able to be
+            connected to and powered from a microcontroller. We chose the LM386
+            Sound Sensor, which has adjustable sensitivity, can be powered with
+            the 3.3V or 5V provided by most microcontrollers, and provides a
+            real time analog voltage output corresponding to the sound.
+          </p>
+          <p>
+            The compact sound sensor provides analog data, but it is not
+            computer readable. We need analog to digital conversion to use the
+            data. We chose the MCP3004 analog to digital converter (ADC). It
+            provides 10 bit digital conversion and can supply up to 200kHz
+            sampling rate from continuous to discrete time. The MCP3004 has 4
+            channels to convert all 4 microphones, and also uses serial
+            peripheral interface (SPI) serial communication to send the data to
+            a microcontroller, much faster than inter-integrated circuit (I2C)
+            serial communication. While a chip that uses integrated inter-IC
+            sound (I2S) may be easier to process quickly for a microcontroller,
+            for sound, most chips only have 2 channels to support stereo audio,
+            and the ones that provide 4 are much more difficult to prototype
+            with.
+          </p>
+          <img src={SoundReception2} />
+          <Accordion allowMultipleExpanded allowZeroExpanded>
+            <AccordionItem>
+              <AccordionItemHeading>
+                <AccordionItemButton>Why a hat?</AccordionItemButton>
+              </AccordionItemHeading>
+              <AccordionItemPanel>
+                <p>
+                  Ideally a user would be able to mount microphones on different
+                  possible articles of clothing on the head, just that the data
+                  still maps to the direction the user is facing, while sounds
+                  from the ground or in the way of a user. We built mock
+                  prototypes of a hat versus sunglasses to help determine how
+                  users would react to the different options. While the glasses
+                  provided some additional benefits, especially if equipment
+                  could be mounted on glasses users already wear everyday, the
+                  better ability to conceal the microphones, the better
+                  distribution of weight, and more symmetrical positioning
+                  confirmed that a hat is the best form factor for sound
+                  reception prototype, however microphones on glasses may be a
+                  future option to develop.
+                </p>
+              </AccordionItemPanel>
+            </AccordionItem>
+            <AccordionItem>
+              <AccordionItemHeading>
+                <AccordionItemButton>
+                  Tell me more about sampling rates
+                </AccordionItemButton>
+              </AccordionItemHeading>
+              <AccordionItemPanel>
+                <p>
+                  From our testing of iteration 1 we had sound data from our 4
+                  microphone array. We used that to help us understand what bit
+                  depth and sample rate specifications we need, by downsampling
+                  to lower sampling rates and further quantizing the data to
+                  lower bit depths, and using that adjusted data we simulated
+                  how different data would perform with our signals processing
+                  algorithms.
+                </p>
+                <p>We tested the following:</p>
+                <p>- Bit depths (8, 10, 12, 16)</p>
+                <p>- Sample rates (100Hz, 1KHz, 10kHz, 44.1kHz)</p>
+                <p>
+                  Upon testing the data we determined that bit depths between
+                  8-16 bits had no conclusive impact. However, lower sampling
+                  rates resulted in higher error, however with a noisy
+                  relationship. This means that having at least 8 bit depth is
+                  likely sufficient, while maintaining higher sampling rates is
+                  beneficial.
+                </p>
+              </AccordionItemPanel>
+            </AccordionItem>
+          </Accordion>
+          <h3 id="sp2">Signals Processing</h3>
+          <p>
+            In the previous iteration, we were using two cross-correlations to
+            estimate the delay between a sound signal arriving at different
+            microphones. We compared the delay (in samples) to a threshold, and
+            used it to classify sound into “front” or “back”, and “left” or
+            “right”. In our second iteration, our goal was to reduce the
+            reliance on an experimentally-determined threshold and instead
+            estimate the sound wave&apos;s angle of arrival. This would allow us
+            to numerically evaluate the accuracy of our prototype as and compare
+            the performance impact of different sampling rates, number of
+            microphones, and algorithms by comparing the Root Mean Square Error
+            (RMSE).
+          </p>
+          <p>
+            As shown in the diagram below, we can multiply the delay from our
+            cross-correlations by the speed of sound to find the extra distance
+            that the sound wave travelled to reach the furthest microphone
+            (&Delta;d). We know the distance between the microphones (d{" "}
+            <sub>m</sub>), so we can use the sine identity to determine the
+            angle of arrival (&Theta;). We then repeat this process for
+            different pairs of microphones to generate multiple estimates, then
+            take the median estimate to reduce the impact of outliers. Using
+            this, we can compare the estimated angle to the actual angle of
+            arrival for various test cases and calculate the RMSE to evaluate
+            accuracy.
+          </p>
+          <img src={DetermineAngle} />
+          <Accordion allowMultipleExpanded allowZeroExpanded>
+            <AccordionItem>
+              <AccordionItemHeading>
+                <AccordionItemButton>
+                  How did we choose the best algorithm?
+                </AccordionItemButton>
+              </AccordionItemHeading>
+              <AccordionItemPanel>
+                <p>
+                  We compared the performance of 7 algorithms that used
+                  different numbers of microphones as well as different methods
+                  of reducing multiple estimates to one final estimate. Using 20
+                  test files (5 audio files played from a speaker in 4 different
+                  directions relative to the prototype) we found that the
+                  angle-estimation algorithms consistently performed better than
+                  our initial delay-based classification method. Additionally,
+                  all of the 4-microphone algorithms were more accurate than the
+                  3-microphone algorithms by an average difference in RMSE of 10
+                  degrees. We selected the best-performing 4-microphone
+                  algorithm to continue optimizing and improving.
+                </p>
+              </AccordionItemPanel>
+            </AccordionItem>
+          </Accordion>
+          <h3 id="integration">Integration</h3>
+          <p>
+            To move to an embedded design and a compact form factor,
+            microcontrollers were explored to replace the signals processing
+            code running on a computer. With the consideration that the
+            microcontroller will need to host the code, it was important that
+            there was support for signals processing libraries such as Scipy to
+            maintain high performance in cross correlations.
+          </p>
+          <p>
+            After some memory profiling, it turned out we could go as small as a
+            Raspberry Pi Zero, which is the smallest Pi in the market with a
+            memory of 512 MB. The code was adapted to run on it including moving
+            to smaller microphones connected to an external A to D chip, which
+            then connected to the Pi to transmit analog readings as sound sensor
+            data. Additionally, it involved setting up a virtual environment and
+            learning about various things in the embedded world to get
+            functional code working in an integrated environment.
+          </p>
+          <img src={LaptopToZero} />
+          <p>
+            A challenge with the Pi migration was that we needed to consider a
+            speed vs compact size factor trade off and we realized the
+            processing power is not sufficient. With the Raspberry Pi, we could
+            no longer have synchronous sound readings and signals processing,
+            thus while signal processing was occurring on the data, no sound
+            reading was being collected.
+          </p>
+          <p>
+            As a next step, the Raspberry Pi 5 was used with a much higher
+            processing power compared to the Raspberry Pi Zero. After setting up
+            the Pi and figuring out some setup changes, the same migration code
+            performed significantly better on the Pi 5. As we also had access to
+            GPIO pins that allow us to output digital signals, another
+            realization was that we could directly power and control the motors
+            from the Raspberry Pi instead of having to do serial communication
+            to another microcontroller (Flora), which would then control the
+            motors.
+          </p>
+          <img src={ZeroToFive} />
+          <p>
+            The overall embedded design now eliminates the need for a laptop by
+            replacing it with the Raspberry Pi 5 to host the signals processing,
+            a user interface with motors attached to interact with users, and a
+            hat to host the microphones.
+          </p>
+          <h3 id="ui2">User Interface</h3>
+          <p>
+            Having completed some testing in our first iteration, we decided to
+            move away from the leather belt and to a fabric belt to better
+            accommodate people of different body types. This meant that we used
+            conductive thread as the connections between the microcontroller and
+            the coin vibration motors. Also, through multiple rounds of testing,
+            we decided to reduce the number of directions that we classify for
+            the user to 4 to prioritize reaction speed rather than granularity.
+          </p>
+          {/* put photo of belt here */}
+          <Accordion allowMultipleExpanded allowZeroExpanded>
+            <AccordionItem>
+              <AccordionItemHeading>
+                <AccordionItemButton>
+                  Reducing the bulkiness of the belt
+                </AccordionItemButton>
+              </AccordionItemHeading>
+              <AccordionItemPanel>
+                <p>
+                  In the first iteration of the belt, we used a Arduino Uno as
+                  the microcontroller. However, this is relatively bulky and
+                  does not enable to run our signals processing code in Python.
+                  Initially, we switched to an Adafruit Flora which could be
+                  sewn into the fabric belt design. This resulted in a
+                  significant drop in weight and could be communicated serially
+                  to by the Raspberry Pi. However, we found that the
+                  communication speed was subpar which led us to directly
+                  integrate the motors with the Raspberry Pi itself given that
+                  it has enough I/O pins.
+                </p>
+                <img src={Armband} />
+              </AccordionItemPanel>
+            </AccordionItem>
+            <AccordionItem>
+              <AccordionItemHeading>
+                <AccordionItemButton>
+                  How many directions is enough?
+                </AccordionItemButton>
+              </AccordionItemHeading>
+              <AccordionItemPanel>
+                <p>
+                  Through the Biomedical Stakeholder Cafe, we learned that users
+                  would like granularity so that they are sure to look in the
+                  correct direction when alerted. However, one of the key
+                  requirements of our product was speed. We need to see if there
+                  is a tradeoff in speed and accuracy if we give the user more
+                  potential directions. We tested a belt with 4 motors for 4
+                  directions, and 8 motors for 8 directions. We wrote a Python
+                  script that ran a number of different test cases that would
+                  activate the motor for the specified direction. The
+                  participant&rsquo;s reaction time was recorded, as well as the
+                  direction that they thought was specified. The following are
+                  the results:
+                </p>
+                <img src={Belt48} />
+                <p>
+                  Participants also mentioned that they liked having all 8
+                  directions, but noticed that it would take a bit longer to
+                  figure out than with only 4 directions. Thus, since we are
+                  prioritizing reaction time, we chose to only implement 4
+                  directions in the final solution.
+                </p>
+              </AccordionItemPanel>
+            </AccordionItem>
+            <AccordionItem>
+              <AccordionItemHeading>
+                <AccordionItemButton>
+                  What about an armband?
+                </AccordionItemButton>
+              </AccordionItemHeading>
+              <AccordionItemPanel>
+                <p>
+                  While testing the 4 motors for 4 directions, and 8 motors for
+                  8 directions, we also tested an armband with 4 directions.
+                  This is because users had mentioned they wanted a smaller form
+                  factor. Below are the results from that testing compared to a
+                  belt with 4 motors:
+                </p>
+                <img src={BeltArmband} />
+                <p>
+                  Users thought that the belt was easier to interpret compared
+                  to the armband. This is because the armband takes longer to
+                  get used to and map the directions given the arm has pronation
+                  and supination motions that do not directly map forward to the
+                  front as easily as the belt. In addition, it was evident that
+                  while the belt was easier to interpret, the armband had fewer
+                  fit issues across the users we tested with. The armband was
+                  able to fit snugly on all of the participants, while the belt
+                  was both too small on some participants, as well as too large
+                  on others. However, due to the issues with mapping directions,
+                  we decided to proceed with using the belt as our final form
+                  factor.
+                </p>
               </AccordionItemPanel>
             </AccordionItem>
           </Accordion>

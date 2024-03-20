@@ -12,7 +12,7 @@
 }
 
 .subtitle {
-  font-size: 28px;
+  font-size: 36px;
   margin-bottom: 24px;
 }
 
@@ -67,7 +67,6 @@
 
   img {
     max-width: 100%;
-    margin-bottom: 0px !important;
   }
 
   .no-cursor {

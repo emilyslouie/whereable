@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import Navbar from "../components/Navbar/Navbar";
 import "./pages.css";
+import Team from "../assets/team.png";
 
 function AboutPage() {
   return (
@@ -23,16 +24,11 @@ function AboutPage() {
           Learn more about WHEREable
         </Link>
       </div>
-      <h2>Where did the idea come from?</h2>
-      <p>a long blurb here</p>
-
       <h2>Meet the team</h2>
-
-      <p>Joy He</p>
-      <p>Matthew Kee</p>
-      <p>Emily Louie</p>
-      <p>Jayant Mehta</p>
-      <p>Gregory Schaper</p>
+      <img src={Team} />
+      <p className="caption">
+        Gregory Schaper, Joy He, Jayant Mehta, Matthew Kee, and Emily Louie
+      </p>
     </>
   );
 }

@@ -19,6 +19,7 @@ import Belt1 from "../assets/belt1.jpg";
 import Morph from "../assets/morph.png";
 import Cdm from "../assets/cdm.png";
 import EndToEnd1 from "../assets/end-to-end.png";
+import SoundReception from "../assets/sound-reception.png";
 import SoundReception2 from "../assets/sound-reception-diagram.png";
 import DetermineAngle from "../assets/determine-angle.png";
 import LaptopToZero from "../assets/laptop-to-zero.png";
@@ -26,6 +27,7 @@ import ZeroToFive from "../assets/zero-to-five.png";
 import Belt48 from "../assets/belt-4-8.png";
 import BeltArmband from "../assets/belt-armband.png";
 import Armband from "../assets/armband.jpeg";
+import EndToEnd2 from "../assets/end-to-end2.png";
 
 function LearnMorePage() {
   return (
@@ -111,12 +113,12 @@ function LearnMorePage() {
 
           <h3 id="sis">Situation Impact Statement</h3>
           {/* make this a block quote */}
-          <p>
+          <blockquote>
             Design a portable, wearable device to be used by people with hearing
             loss who struggle with localizing sound direction in their daily
             life. This device also needs to be accurate, and in general help
             improve safety, particularly in the scope of pedestrian hazards.
-          </p>
+          </blockquote>
           <h2 id="overall-system">Overall System</h2>
           <p>WHEREable can be broken up into 3 main parts:</p>
           <p>
@@ -338,9 +340,20 @@ function LearnMorePage() {
             </AccordionItem>
           </Accordion>
           <h3 id="end-to-end1">Combining the pieces</h3>
+          <p>
+            At the end of iteration 1, we were able to demonstrate a fully
+            functioning system where we could receive sound, correctly process
+            the direction it came from, and communicate that to the user.
+            However, the setup was not at all practical for use due to the
+            series of mixers and laptops in between the microphones and the
+            belt. There is no way someone is going to want to lug the mixers and
+            laptop around with them in a backpack… back to the drawing boards
+            for us!
+          </p>
           <img src={EndToEnd1} />
           <h2 id="iteration2">Iteration 2 - Making it Practical</h2>
           <h3 id="sr2">Sound Reception</h3>
+          <img src={SoundReception} />
           <p>
             The bulkiness and cost of our equipment is not feasible for a
             portable and wearable prototype. Therefore we need microphones that
@@ -367,6 +380,7 @@ function LearnMorePage() {
             and the ones that provide 4 are much more difficult to prototype
             with.
           </p>
+
           <img src={SoundReception2} />
           <Accordion allowMultipleExpanded allowZeroExpanded>
             <AccordionItem>
@@ -550,7 +564,6 @@ function LearnMorePage() {
                   integrate the motors with the Raspberry Pi itself given that
                   it has enough I/O pins.
                 </p>
-                <img src={Armband} />
               </AccordionItemPanel>
             </AccordionItem>
             <AccordionItem>
@@ -595,8 +608,12 @@ function LearnMorePage() {
                   While testing the 4 motors for 4 directions, and 8 motors for
                   8 directions, we also tested an armband with 4 directions.
                   This is because users had mentioned they wanted a smaller form
-                  factor. Below are the results from that testing compared to a
-                  belt with 4 motors:
+                  factor. The armband used an Adafruit Flora.
+                </p>
+                <img src={Armband} />
+                <p>
+                  Below are the results from that testing compared to a belt
+                  with 4 motors:
                 </p>
                 <img src={BeltArmband} />
                 <p>
@@ -616,6 +633,22 @@ function LearnMorePage() {
               </AccordionItemPanel>
             </AccordionItem>
           </Accordion>
+          <h2 id="overall">The Current State of WHEREable</h2>
+          <p>
+            After iteration 2, we are at the state where we can put together all
+            the parts into a fully-functioning system. WHEREable consists of a
+            hat with 4 sound sensors wired up to an A to D chip which is
+            connected to a Raspberry Pi 5 and wired to 4 coin vibration motors
+            on a fabric belt.
+          </p>
+          <img src={EndToEnd2} />
+          <p>
+            Powered by a 5V 3A phone battery, the product can last up to 8 hours
+            while on. The overall cost to manufacture it is $230 which is 3.5
+            times cheaper than the cost of traditional hearing aids. Also, the
+            overall time it takes from a sound to a user determining the
+            direction of sound is 2.3 seconds.
+          </p>
         </div>
         <TableOfContents />
       </div>

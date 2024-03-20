@@ -31,6 +31,12 @@ li > a:hover {
 
 @media screen and (max-width: 1000px) {
   nav {
-    display: none;
+    position: relative;
+    position: -webkit-relative; /* For Safari */
+    top: 0;
+  }
+
+  li.active > a {
+    color: #646cff;
   }
 }

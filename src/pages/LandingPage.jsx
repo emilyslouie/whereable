@@ -53,6 +53,23 @@ function LandingPage() {
             </div>
           </div>
         </div>
+        <h2>Features</h2>
+        <div className="feature-content">
+          <div className="feature">
+            <h1>8</h1>
+            <p className="small">hours of battery life</p>
+          </div>
+          <div className="feature">
+            <h1>2.3</h1>
+            <p className="small">seconds for user to react</p>
+          </div>
+          <div className="feature">
+            <h1>$230</h1>
+            <p className="big">
+              to manufacture which is 3.5x cheaper than hearing aids
+            </p>
+          </div>
+        </div>
       </div>
     </>
   );

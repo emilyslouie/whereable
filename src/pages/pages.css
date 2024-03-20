@@ -179,6 +179,38 @@
 .ui {
   color: #ff7c00;
 }
+.feature-content {
+  display:flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .feature {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  
+    h1 {
+      font-size: 72px;
+      margin: 0;
+    }
+
+    .small {
+      max-width: 100px;
+    }
+
+    .big {
+      max-width: 250px;
+    }
+  
+    p {
+      
+      padding-left: 8px;
+    }
+  }
+}
+
+
 
 @media only screen and (max-width: 1000px) {
     .content {

@@ -53,7 +53,7 @@ function LandingPage() {
             </div>
           </div>
         </div>
-        <h2>Features</h2>
+        <h1>Features</h1>
         <div className="feature-content">
           <div className="feature">
             <h1>8</h1>

@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import Navbar from "../components/Navbar/Navbar";
 import Diagram from "../assets/illustration.png";
+import EndToEnd3 from "../assets/end-to-end3.jpg";
 
 function LandingPage() {
   return (
@@ -69,6 +70,9 @@ function LandingPage() {
               to manufacture which is 3.5x cheaper than hearing aids
             </p>
           </div>
+        </div>
+        <div className="photo">
+          <img src={EndToEnd3} />
         </div>
       </div>
     </>

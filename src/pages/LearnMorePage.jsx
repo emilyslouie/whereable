@@ -28,6 +28,7 @@ import Belt48 from "../assets/belt-4-8.png";
 import BeltArmband from "../assets/belt-armband.png";
 import Armband from "../assets/armband.jpeg";
 import EndToEnd2 from "../assets/end-to-end2.png";
+import EndToEnd3 from "../assets/end-to-end3.jpg";
 
 function LearnMorePage() {
   return (
@@ -634,6 +635,7 @@ function LearnMorePage() {
             </AccordionItem>
           </Accordion>
           <h2 id="overall">The Current State of WHEREable</h2>
+          <img src={EndToEnd3} />
           <p>
             After iteration 2, we are at the state where we can put together all
             the parts into a fully-functioning system. WHEREable consists of a

@@ -9,6 +9,8 @@ nav {
   max-height: calc(100vh - 40px);
   max-width: 250px;
   overflow: auto;
+
+  margin-bottom: 24px;
 }
 
 nav ul {
